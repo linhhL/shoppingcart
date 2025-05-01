@@ -7,9 +7,24 @@
   <style>
     body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.6; }
     h1 { font-size: 32px; }
-    select, button { padding: 10px; margin-bottom: 15px; width: 100%; max-width: 300px; }
+    select, .btn { padding: 12px 24px; margin-bottom: 15px; font-size: 16px; }
+    label { font-weight: bold; }
     .sizes { display: flex; gap: 40px; flex-wrap: wrap; }
     .confirmation { margin-top: 20px; font-style: italic; color: #444; }
+
+    .btn {
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background-color: #333;
+    }
+
     .toggle-section { border-top: 1px solid #ccc; padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
     .toggle-content { display: none; padding-bottom: 16px; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -38,7 +53,7 @@
     </div>
   </div>
 
-  <button onclick="addToCart()">Add to Cart</button>
+  <button class="btn" onclick="addToCart()">Add to Cart</button>
   <div class="confirmation" id="result"></div>
 
   <div class="toggle-section" onclick="toggleSection('desc')">Product description ▼</div>
