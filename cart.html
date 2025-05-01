@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Cart</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: 40px auto; }
+    .item { background: #f4f4f4; padding: 20px; margin-bottom: 20px; border-radius: 8px; }
+    .total { text-align: right; font-weight: bold; font-size: 18px; }
+    button { padding: 10px 20px; background: #dc3545; color: white; border: none; border-radius: 6px; cursor: pointer; }
+    h1 { margin-bottom: 30px; }
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <div id="cartItems">Loading...</div>
+  <div class="total" id="totalPrice"></div>
+  <button onclick="clearCart()">🧹 Clear Cart</button>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const container = document.getElementById("cartItems");
+    const totalEl = document.getElementById("totalPrice");
+
+    if (cart.length === 0) {
+      container.innerHTML = "<p>Your cart is empty.</p>";
+      totalEl.innerText = "";
+    } else {
+      let total = 0;
+      let html = "";
+      cart.forEach(item => {
+        html += `
+          <div class="item">
+            <strong>${item.name}</strong><br>
+            Size for Him: ${item.sizeHim}<br>
+            Size for Her: ${item.sizeHer}<br>
+            Price: ${item.price.toLocaleString()} VND
+          </div>
+        `;
+        total += item.price;
+      });
+      container.innerHTML = html;
+      totalEl.innerText = "Total: " + total.toLocaleString() + " VND";
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      window.location.reload();
+    }
+  </script>
+</body>
+</html>
