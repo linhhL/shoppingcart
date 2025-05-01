@@ -5,36 +5,47 @@
   <meta charset="UTF-8">
   <title>Bluemoon Set</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 40px auto; line-height: 1.6; }
-    h1 { font-size: 32px; }
-    select, .btn { padding: 12px 24px; margin-bottom: 15px; font-size: 16px; }
-    label { font-weight: bold; }
-    .sizes { display: flex; gap: 40px; flex-wrap: wrap; }
+    body { font-family: Arial; max-width: 800px; margin: 40px auto; line-height: 1.6; }
+    .btn {
+      background-color: #000; color: white; border: none;
+      border-radius: 8px; font-weight: bold; font-size: 16px;
+      padding: 12px 24px; cursor: pointer; margin-top: 10px;
+    }
+    .btn:hover { background-color: #333; }
+    .sizes {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    select {
+      padding: 12px 18px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-color: #f9f9f9;
+      appearance: none;
+    }
     .confirmation { margin-top: 20px; font-style: italic; color: #444; }
 
-    .btn {
-      background-color: #000;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
+    .toggle-section {
+      border-top: 1px solid #ccc; padding: 16px 0;
+      cursor: pointer; font-weight: bold;
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .btn:hover {
-      background-color: #333;
-    }
-
-    .toggle-section { border-top: 1px solid #ccc; padding: 16px 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: bold; }
     .toggle-content { display: none; padding-bottom: 16px; }
     table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-    table th, table td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #eee; }
+    table th, table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
   </style>
 </head>
 <body>
-
-  <h1>Bluemoon set</h1>
-  <p><strong>Price:</strong> 999.000 VND</p>
+  <h1>Bluemoon Set</h1>
+  <p><strong>Price:</strong> 999.999 VND</p>
 
   <div class="sizes">
     <div>
@@ -56,6 +67,7 @@
   <button class="btn" onclick="addToCart()">Add to Cart</button>
   <div class="confirmation" id="result"></div>
 
+  <!-- Toggle Sections -->
   <div class="toggle-section" onclick="toggleSection('desc')">Product description ▼</div>
   <div class="toggle-content" id="desc">
     <p>Elevate your couple style with this effortlessly chic matching set featuring a unisex blue-and-white striped shirt. Made from a soft and breathable cotton blend, the shirt offers a relaxed fit, dropped shoulders, and button-up front — perfect for both him and her. The male look is styled with dark tailored shorts for a clean, casual vibe, while the female outfit pairs the shirt with a pleated skirt and matching scrunchie, creating a preppy and playful feel.</p>
@@ -111,14 +123,17 @@
         return;
       }
 
-      const item = {
+      const newItem = {
         name: "Bluemoon Set",
-        price: 999000,
+        price: 999999,
         sizeHim: sizeHim,
         sizeHer: sizeHer
       };
 
-      localStorage.setItem("cart", JSON.stringify([item]));
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(newItem);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
       result.innerText = `🛒 Added to cart – Size for Him: ${sizeHim}, Size for Her: ${sizeHer}`;
     }
   </script>
