@@ -1,0 +1,29 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; }
+  </style>
+</head>
+<body>
+  <h1>Thank you for your order! 🎉</h1>
+  <p>We’ll send updates to: <strong id="email"></strong></p>
+  <p>Payment method: <span id="method"></span></p>
+  <h3>Order Summary:</h3>
+  <ul id="summary"></ul>
+  <script>
+    document.getElementById("email").innerText = localStorage.getItem("lamone_email");
+    document.getElementById("method").innerText = localStorage.getItem("lamone_payment");
+    const cart = JSON.parse(localStorage.getItem("lamone_cart")) || [];
+    const ul = document.getElementById("summary");
+    cart.forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = `${item.name} (${item.size}) — ${item.price} VND`;
+      ul.appendChild(li);
+    });
+  </script>
+</body>
+</html>
