@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px auto;
+      max-width: 900px;
+      color: #333;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 40px;
+    }
+    .left, .right {
+      flex: 1;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 30px;
+      background-color: #fafafa;
+    }
+    .title {
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .subtext {
+      color: #777;
+      margin: 10px 0 20px;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0 20px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #111;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #000;
+    }
+    a { color: #007bff; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <h2>Account</h2>
+  
+
+  <div class="container">
+    <div class="left">
+      <p style="font-weight: bold;">👤 Guest account</p>
+      <p>You are not signed in <a href="#">Sign in</a></p>
+
+      <h3>Shopping cart</h3>
+      <p id="cartPreview">Loading cart...</p>
+    </div>
+
+    <div class="right">
+      <div class="title">Join us or sign in</div>
+      <p class="subtext">
+        Track your orders, checkout faster, and sync your favorites. Just enter your email and we’ll send you a special link that will sign you in instantly.
+      </p>
+      <p class="subtext">An account will be automatically created for you if you don’t have one yet.</p>
+      <form onsubmit="return loginUser()">
+        <input type="email" id="email" placeholder="Your email address" required />
+        <button type="submit">Get Sign-In Link</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function loginUser() {
+      const email = document.getElementById("email").value;
+      localStorage.setItem("userEmail", email);
+      window.location.href = "account2.html";
+      return false;
+    }
+
+    function previewCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const preview = document.getElementById("cartPreview");
+      if (cart.length === 0) {
+        preview.innerText = "Your shopping cart is empty";
+      } else {
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        preview.innerText = cart.length + " item(s) — " + total.toLocaleString() + " VND";
+      }
+    }
+
+    previewCart();
+  </script>
+</body>
+</html>
