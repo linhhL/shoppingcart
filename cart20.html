@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+  <style>
+    body { font-family: sans-serif; padding: 40px; }
+    h1 { font-size: 28px; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 10px 0; }
+    .note { color: gray; margin-bottom: 20px; }
+    button {
+      padding: 12px;
+      background: black;
+      color: white;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+  <h1>Shopping Cart</h1>
+  <p class="note" id="guestNote"></p>
+  <ul id="cartList"></ul>
+  <button onclick="goCheckout()">Checkout</button>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem("lamone_cart")) || [];
+    const email = localStorage.getItem("lamone_email");
+    document.getElementById("guestNote").innerText = email ? 
+      `You're logged in as: ${email}` : 
+      "You are buying as a guest account.";
+
+    const cartList = document.getElementById("cartList");
+    if (cart.length === 0) {
+      cartList.innerHTML = "<li>Your shopping cart is empty.</li>";
+    } else {
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = `${item.name} (${item.size}) — ${item.price} VND`;
+        cartList.appendChild(li);
+      });
+    }
+
+    function goCheckout() {
+      window.location.href = "checkout20.html";
+    }
+  </script>
+</body>
+</html>
