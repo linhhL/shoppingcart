@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Account</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 1000px; margin: 50px auto; color: #111; }
+    h2 { font-size: 24px; font-weight: bold; }
+    .label { font-weight: bold; margin-top: 20px; }
+    a, button {
+      display: inline-block;
+      margin-top: 15px;
+      padding: 12px 20px;
+      background: #111;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+    .column { margin-top: 20px; }
+  </style>
+</head>
+<body>
+  <h2>Welcome, <span id="userEmail">...</span></h2>
+
+  <div class="column">
+    <p class="label">Shopping cart</p>
+    <ul id="cartItems"></ul>
+    <p><strong>Total:</strong> <span id="cartTotal"></span> VND</p>
+    <a id="checkoutLink">Go to checkout</a>
+  </div>
+
+  <script>
+    window.addEventListener("DOMContentLoaded", () => {
+      const params = new URLSearchParams(window.location.search);
+      const email = params.get("email") || "guest@example.com";
+      document.getElementById("userEmail").textContent = email;
+
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const list = document.getElementById("cartItems");
+      let total = 0;
+
+      if (cart.length === 0) {
+        list.innerHTML = "<li>Your cart is empty.</li>";
+      } else {
+        cart.forEach(item => {
+          total += item.price;
+          const li = document.createElement("li");
+          li.textContent = `${item.name} - Size ${item.size} - ${item.price.toLocaleString()}₫`;
+          list.appendChild(li);
+        });
+      }
+
+      document.getElementById("cartTotal").textContent = total.toLocaleString();
+      document.getElementById("checkoutLink").href =
+        `https://linhhL.github.io/shoppingcart/checkout16.html?email=${encodeURIComponent(email)}`;
+    });
+  </script>
+</body>
+</html>
