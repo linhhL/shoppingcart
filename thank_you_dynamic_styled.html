@@ -3,12 +3,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Thank You for Your Order</title>
+  <title>Thank You</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       background: #f2f6fa;
-      margin: 0;
       padding: 40px;
       display: flex;
       justify-content: center;
@@ -62,14 +61,14 @@
 <body>
   <div class="container">
     <h1>Thank you for your order! 🎉</h1>
-
     <div class="info">
       <p class="order-code">Order: <span id="orderCode"></span></p>
       <p>Date: <span id="orderTime"></span></p>
+      <p>Name: <span id="customerName">...</span></p>
+      <p>Phone: <span id="customerPhone">...</span></p>
       <p>Payment method: <span id="paymentMethod">...</span></p>
       <p>Total: <span id="orderTotal">...</span></p>
     </div>
-
     <div class="products">
       <h3>Your Order:</h3>
       <div id="productList"></div>
@@ -91,8 +90,11 @@
 
     const cart = JSON.parse(localStorage.getItem("cart")) || [];
     const payment = localStorage.getItem("paymentMethod") || "Not specified";
-    let total = 0;
+    const shipping = JSON.parse(localStorage.getItem("shippingInfo")) || {};
+    document.getElementById("customerName").textContent = shipping.name || "N/A";
+    document.getElementById("customerPhone").textContent = shipping.phone || "N/A";
 
+    let total = 0;
     const productList = document.getElementById("productList");
     const totalSpan = document.getElementById("orderTotal");
 
