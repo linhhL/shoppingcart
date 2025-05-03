@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payment</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: 40px auto; }
+    .option { padding: 15px; border: 2px solid #ccc; border-radius: 6px; margin-bottom: 15px; cursor: pointer; }
+    .option.selected { border-color: #007bff; background: #eef5ff; }
+    button { width: 100%; padding: 12px; font-size: 16px; background: black; color: white; border: none; border-radius: 6px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Payment Information</h2>
+  <div class="option selected" onclick="selectPayment(this, 'cash')">💵 Pay by cash</div>
+  <div class="option" onclick="selectPayment(this, 'bank')">🏦 Pay by bank transfer</div>
+
+  <button onclick="confirmOrder()">Continue</button>
+
+  <script>
+    let payment = "cash";
+    function selectPayment(el, method) {
+      document.querySelectorAll('.option').forEach(opt => opt.classList.remove("selected"));
+      el.classList.add("selected");
+      payment = method;
+    }
+
+    function confirmOrder() {
+      localStorage.setItem("paymentMethod", payment);
+      window.location.href = "https://linhhL.github.io/shoppingcart/thankyou11.html";
+    }
+  </script>
+</body>
+</html>
