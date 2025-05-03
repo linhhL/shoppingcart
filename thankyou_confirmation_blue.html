@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f4;
+      padding: 40px;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #4da6ff;
+    }
+    .summary {
+      margin-top: 30px;
+    }
+    .item {
+      padding: 10px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    .order-code {
+      text-align: center;
+      margin-top: 30px;
+      font-weight: bold;
+      font-size: 18px;
+      color: #4da6ff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎉 Thank you for your purchase!</h1>
+    <p>Your order has been received. Here's a summary of what you've purchased:</p>
+    <div class="summary" id="orderSummary"></div>
+    <div class="order-code" id="orderCode"></div>
+  </div>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const summaryEl = document.getElementById("orderSummary");
+    const codeEl = document.getElementById("orderCode");
+
+    if (cart.length === 0) {
+      summaryEl.innerHTML = "<p>No items found in cart.</p>";
+    } else {
+      cart.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item";
+        div.textContent = `${item.name} — Him: ${item.sizeHim}, Her: ${item.sizeHer} — ${item.price.toLocaleString()} VND`;
+        summaryEl.appendChild(div);
+      });
+    }
+
+    // Random order code
+    const orderCode = "LM" + Math.floor(Math.random() * 1000000).toString().padStart(6, "0");
+    codeEl.textContent = "Order Code: " + orderCode;
+
+    // Optionally clear the cart
+    localStorage.removeItem("cart");
+  </script>
+</body>
+</html>

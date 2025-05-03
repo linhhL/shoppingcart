@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shipping Information</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      padding: 40px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 30px;
+      width: 100%;
+      background: black;
+      color: white;
+      padding: 14px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Shipping Information</h1>
+    <form onsubmit="saveShippingInfo(); return false;">
+      <label for="fullname">Full Name</label>
+      <input type="text" id="fullname" required>
+
+      <label for="phone">Phone Number</label>
+      <input type="tel" id="phone" required>
+
+      <label for="province">Province/City</label>
+      <select id="province" required>
+        <option value="">-- Select Province --</option>
+        <option>An Giang</option>
+        <option>Bà Rịa - Vũng Tàu</option>
+        <option>Bắc Giang</option>
+        <option>Bắc Kạn</option>
+        <option>Bạc Liêu</option>
+        <option>Bắc Ninh</option>
+        <option>Bến Tre</option>
+        <option>Bình Định</option>
+        <option>Bình Dương</option>
+        <option>Bình Phước</option>
+        <option>Bình Thuận</option>
+        <option>Cà Mau</option>
+        <option>Cần Thơ</option>
+        <option>Cao Bằng</option>
+        <option>Đà Nẵng</option>
+        <option>Đắk Lắk</option>
+        <option>Đắk Nông</option>
+        <option>Điện Biên</option>
+        <option>Đồng Nai</option>
+        <option>Đồng Tháp</option>
+        <option>Gia Lai</option>
+        <option>Hà Giang</option>
+        <option>Hà Nam</option>
+        <option>Hà Nội</option>
+        <option>Hà Tĩnh</option>
+        <option>Hải Dương</option>
+        <option>Hải Phòng</option>
+        <option>Hậu Giang</option>
+        <option>Hòa Bình</option>
+        <option>Hưng Yên</option>
+        <option>Khánh Hòa</option>
+        <option>Kiên Giang</option>
+        <option>Kon Tum</option>
+        <option>Lai Châu</option>
+        <option>Lâm Đồng</option>
+        <option>Lạng Sơn</option>
+        <option>Lào Cai</option>
+        <option>Long An</option>
+        <option>Nam Định</option>
+        <option>Nghệ An</option>
+        <option>Ninh Bình</option>
+        <option>Ninh Thuận</option>
+        <option>Phú Thọ</option>
+        <option>Phú Yên</option>
+        <option>Quảng Bình</option>
+        <option>Quảng Nam</option>
+        <option>Quảng Ngãi</option>
+        <option>Quảng Ninh</option>
+        <option>Quảng Trị</option>
+        <option>Sóc Trăng</option>
+        <option>Sơn La</option>
+        <option>Tây Ninh</option>
+        <option>Thái Bình</option>
+        <option>Thái Nguyên</option>
+        <option>Thanh Hóa</option>
+        <option>Thừa Thiên Huế</option>
+        <option>Tiền Giang</option>
+        <option>TP Hồ Chí Minh</option>
+        <option>Trà Vinh</option>
+        <option>Tuyên Quang</option>
+        <option>Vĩnh Long</option>
+        <option>Vĩnh Phúc</option>
+        <option>Yên Bái</option>
+      </select>
+
+      <label for="address">Detailed Address</label>
+      <input type="text" id="address" placeholder="e.g. 123 Nguyễn Trãi, Quận 5" required>
+
+      <button type="submit">Continue</button>
+    </form>
+  </div>
+
+  <script>
+    function saveShippingInfo() {
+      const info = {
+        name: document.getElementById("fullname").value,
+        phone: document.getElementById("phone").value,
+        province: document.getElementById("province").value,
+        address: document.getElementById("address").value
+      };
+      localStorage.setItem("shippingInfo", JSON.stringify(info));
+      window.location.href = "payment_step.html";
+    }
+  </script>
+</body>
+</html>

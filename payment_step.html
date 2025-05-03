@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Select Payment Method</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      padding: 40px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .option {
+      border: 2px solid #ccc;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      background: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .option:hover {
+      border-color: black;
+      background: #f0f0f0;
+    }
+    .option.selected {
+      border-color: black;
+      background: #e0e0e0;
+    }
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #222;
+    }
+  </style>
+</head>
+<body>
+  <h1>Choose Your Payment Method</h1>
+  <div class="option" onclick="selectOption('cash')" id="cashOption">💵 Pay by Cash</div>
+  <div class="option" onclick="selectOption('bank')" id="bankOption">🏦 Bank Transfer</div>
+  <button onclick="continueToNext()">Continue</button>
+
+  <script>
+    let selectedMethod = "";
+
+    function selectOption(method) {
+      selectedMethod = method;
+      document.getElementById("cashOption").classList.remove("selected");
+      document.getElementById("bankOption").classList.remove("selected");
+      document.getElementById(method + "Option").classList.add("selected");
+    }
+
+    function continueToNext() {
+      if (!selectedMethod) {
+        alert("Please choose a payment method.");
+        return;
+      }
+      localStorage.setItem("paymentMethod", selectedMethod);
+      window.location.href = "confirmation_step.html"; // next step file
+    }
+  </script>
+</body>
+</html>
