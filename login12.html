@@ -1,0 +1,100 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sign In</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 1000px;
+      margin: 50px auto;
+      color: #111;
+    }
+    .container {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .column {
+      flex: 1;
+      padding: 0 10px;
+    }
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .label {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    input[type="email"] {
+      width: 100%;
+      padding: 12px;
+      margin: 20px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #111;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #000;
+    }
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="column">
+      <p>👤 <strong>Guest account</strong></p>
+      <p>You are not signed in <a href="#">Sign in</a></p>
+      <p class="label">Shopping cart</p>
+      <p id="cartPreview">Loading cart...</p>
+    </div>
+    <div class="column">
+      <h2>Join us or sign in</h2>
+      <p>Track orders, checkout faster, sync favorites. Just enter your email to sign in.</p>
+      <p>An account will be automatically created if you don’t have one yet.</p>
+      <form onsubmit="return loginUser()">
+        <input type="email" id="email" placeholder="Your email address" required />
+        <button type="submit">Sign In</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function loginUser() {
+      const email = document.getElementById("email").value;
+      localStorage.setItem("userEmail", email);
+      window.location.href = "https://linhhL.github.io/shoppingcart/account12.html?email=" + encodeURIComponent(email);
+      return false;
+    }
+
+    function previewCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const preview = document.getElementById("cartPreview");
+      if (cart.length === 0) {
+        preview.innerText = "Your shopping cart is empty";
+      } else {
+        const total = cart.reduce((sum, item) => sum + item.price, 0);
+        preview.innerText = cart.length + " item(s) — " + total.toLocaleString() + " VND";
+      }
+    }
+
+    previewCart();
+  </script>
+</body>
+</html>

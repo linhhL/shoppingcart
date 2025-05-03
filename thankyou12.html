@@ -1,0 +1,44 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Thank You</title>
+  <style>
+    body { font-family: Arial; max-width: 700px; margin: 40px auto; }
+    h2 { font-size: 28px; }
+    .box { padding: 20px; border: 1px solid #ccc; border-radius: 8px; margin-top: 20px; }
+    .label { font-weight: bold; margin-top: 10px; }
+    button { margin-top: 20px; padding: 12px; font-size: 16px; background: black; color: white; border: none; border-radius: 6px; cursor: pointer; width: 100%; }
+  </style>
+</head>
+<body>
+  <h2>🎉 Thank you for your order!</h2>
+  <p>Order confirmation and updates will be sent to <span id="emailInfo"></span></p>
+
+  <div class="box">
+    <div><strong>Order ID:</strong> <span id="orderId"></span></div>
+    <div><strong>Payment status:</strong> <span id="payStatus"></span></div>
+    <div><strong>Total:</strong> <span id="total">300 000₫</span></div>
+
+    <div class="label">Your order:</div>
+    <p id="orderSummary">1 x [Product Name]</p>
+
+    <div class="label">Questions on your order?</div>
+    <p>Email: <a href="mailto:Lamonesupport@gmail.com">Lamonesupport@gmail.com</a></p>
+  </div>
+
+  <button onclick="continueShopping()">Continue Shopping</button>
+
+  <script>
+    document.getElementById("emailInfo").innerText = localStorage.getItem("userEmail");
+    document.getElementById("payStatus").innerText = "Awaiting payment - " + (localStorage.getItem("paymentMethod") === "bank" ? "Bank Transfer" : "Cash");
+    document.getElementById("orderSummary").innerText = "1 x " + (localStorage.getItem("cartItemName") || "[Product Name]");
+    document.getElementById("orderId").innerText = "DX" + Math.floor(1000 + Math.random() * 9000);
+
+    function continueShopping() {
+      window.location.href = "https://sites.google.com/view/lamonecouple/products?authuser=0";
+    }
+  </script>
+</body>
+</html>
