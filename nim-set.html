@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Nim Set</title>
+  <style>
+    body {
+      font-family: Arial;
+      max-width: 800px;
+      margin: 40px auto;
+      line-height: 1.6;
+    }
+    .btn {
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 12px 24px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn:hover { background-color: #333; }
+    .sizes {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    select {
+      padding: 12px 18px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-color: #f9f9f9;
+    }
+    .confirmation { margin-top: 20px; font-style: italic; color: #444; }
+    .toggle-section {
+      border-top: 1px solid #ccc;
+      padding: 16px 0;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .toggle-content { display: none; padding-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Nim Set</h1>
+  <p><strong>Price:</strong> 999.000 VND</p>
+
+  <div class="sizes">
+    <div>
+      <label for="sizeHim">Size for Him:</label><br>
+      <select id="sizeHim">
+        <option value="">Select size</option>
+        <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+    </div>
+    <div>
+      <label for="sizeHer">Size for Her:</label><br>
+      <select id="sizeHer">
+        <option value="">Select size</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="btn" onclick="addToCart()">Add to Cart</button>
+  <div class="confirmation" id="result"></div>
+
+  <div class="toggle-section" onclick="toggleSection('desc')">Product description ▼</div>
+  <div class="toggle-content" id="desc">
+    <p>The Nim Set offers a bold yet cute urban style perfect for café dates or city strolls. His outfit is a navy matching set with a short-sleeve collared shirt and relaxed shorts for comfort and polish. Her look features a fitted cami dress with a flared mini skirt and structured bodice, creating a playful, flattering silhouette. Finished with red accents for a modern pop.</p>
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('care')">Material & care ▼</div>
+  <div class="toggle-content" id="care">
+    <p>Shirt & Shorts: 100% cotton denim. Dress: Cotton-poly blend with light stretch. Durable and stylish. Machine wash cold with like colors. Hang dry or tumble dry low. Iron as needed.</p>
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('origin')">Origin ▼</div>
+  <div class="toggle-content" id="origin">
+    <p>Proudly made in Vietnam using ethically sourced materials.</p>
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('shipping')">Shipping, exchange & returns ▼</div>
+  <div class="toggle-content" id="shipping">
+    <p>Free shipping for orders from 499,000₫. Items can be exchanged within 7 days if unworn and with original tags. Returns accepted for store credit or original payment method.</p>
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === "block" ? "none" : "block";
+    }
+
+    function addToCart() {
+      const sizeHim = document.getElementById("sizeHim").value;
+      const sizeHer = document.getElementById("sizeHer").value;
+      const result = document.getElementById("result");
+
+      if (!sizeHim || !sizeHer) {
+        alert("Please select both sizes!");
+        return;
+      }
+
+      const newItem = {
+        name: "Nim Set",
+        price: 999000,
+        sizeHim: sizeHim,
+        sizeHer: sizeHer
+      };
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(newItem);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      result.innerText = `🛒 Added to cart – Size for Him: ${sizeHim}, Size for Her: ${sizeHer}`;
+    }
+  </script>
+</body>
+</html>
