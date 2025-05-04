@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -35,6 +36,7 @@
       border: 1px solid #ccc;
       border-radius: 12px;
       background-color: #f9f9f9;
+      appearance: none;
     }
     .confirmation { margin-top: 20px; font-style: italic; color: #444; }
     .toggle-section {
@@ -42,8 +44,21 @@
       padding: 16px 0;
       cursor: pointer;
       font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .toggle-content { display: none; padding-bottom: 16px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table th, table td {
+      padding: 8px 12px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+    }
   </style>
 </head>
 <body>
@@ -72,12 +87,30 @@
 
   <div class="toggle-section" onclick="toggleSection('desc')">Product description ▼</div>
   <div class="toggle-content" id="desc">
-    <p>The Nim Set offers a bold yet cute urban style perfect for café dates or city strolls. His outfit is a navy matching set with a short-sleeve collared shirt and relaxed shorts for comfort and polish. Her look features a fitted cami dress with a flared mini skirt and structured bodice, creating a playful, flattering silhouette. Finished with red accents for a modern pop.</p>
+    <p>The Nim Set features a dark navy short-sleeve shirt and shorts for him, and a playful navy mini dress for her. This look is perfect for casual hangouts, afternoon café dates, or retro-style couple photoshoots. It gives off youthful energy while keeping it cool and coordinated.</p>
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('measurements')">Product measurements ▼</div>
+  <div class="toggle-content" id="measurements">
+    <p><strong>For Her</strong></p>
+    <table>
+      <tr><th>Area</th><th>XS</th><th>S</th><th>M</th><th>L</th><th>XL</th></tr>
+      <tr><td>A - Chest</td><td>43.0</td><td>46.0</td><td>48.5</td><td>51.0</td><td>53.5</td></tr>
+      <tr><td>B - Front length</td><td>62.0</td><td>62.5</td><td>63.0</td><td>63.5</td><td>64.0</td></tr>
+      <tr><td>D - Back width</td><td>33.5</td><td>35.0</td><td>36.5</td><td>38.0</td><td>39.5</td></tr>
+    </table>
+    <br><p><strong>For Him</strong></p>
+    <table>
+      <tr><th>Area</th><th>S</th><th>M</th><th>L</th><th>XL</th><th>XXL</th></tr>
+      <tr><td>A - Chest</td><td>48.0</td><td>51.0</td><td>54.0</td><td>57.0</td><td>60.0</td></tr>
+      <tr><td>B - Front length</td><td>69.0</td><td>71.0</td><td>73.0</td><td>75.0</td><td>77.0</td></tr>
+      <tr><td>D - Back width</td><td>37.0</td><td>39.0</td><td>41.0</td><td>43.0</td><td>45.0</td></tr>
+    </table>
   </div>
 
   <div class="toggle-section" onclick="toggleSection('care')">Material & care ▼</div>
   <div class="toggle-content" id="care">
-    <p>Shirt & Shorts: 100% cotton denim. Dress: Cotton-poly blend with light stretch. Durable and stylish. Machine wash cold with like colors. Hang dry or tumble dry low. Iron as needed.</p>
+    <p>Premium cotton denim blend. Soft, breathable, and durable. Machine wash cold with like colors. Do not bleach. Tumble dry low or hang dry. Iron on low if needed.</p>
   </div>
 
   <div class="toggle-section" onclick="toggleSection('origin')">Origin ▼</div>
