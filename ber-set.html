@@ -38,9 +38,6 @@
       appearance: none;
     }
     .confirmation {
-      display: flex;
-      align-items: center;
-      gap: 12px;
       margin-top: 20px;
       font-style: italic;
       color: #444;
@@ -148,14 +145,7 @@
       cart.push(newItem);
       localStorage.setItem("cart", JSON.stringify(cart));
 
-      result.innerHTML = `
-        <img src="${newItem.image}" alt="Ber Set" width="80" style="border-radius:8px;">
-        <div>
-          🛒 <strong>Added to cart</strong><br>
-          Quantity: ${newItem.quantity}<br>
-          Size for Him: ${newItem.sizeHim}, Size for Her: ${newItem.sizeHer}
-        </div>
-      `;
+      result.innerText = `🛒 Added to cart – Size for Him: ${sizeHim}, Size for Her: ${sizeHer}`;
     }
   </script>
 </body>
