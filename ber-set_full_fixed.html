@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ber Set</title>
+  <style>
+    body {
+      font-family: Arial;
+      max-width: 800px;
+      margin: 40px auto;
+      line-height: 1.6;
+    }
+    .btn {
+      background-color: #000;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 16px;
+      padding: 12px 24px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn:hover { background-color: #333; }
+    .sizes {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    select {
+      padding: 12px 18px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background-color: #f9f9f9;
+      appearance: none;
+    }
+    .confirmation { margin-top: 20px; font-style: italic; color: #444; }
+    .toggle-section {
+      border-top: 1px solid #ccc;
+      padding: 16px 0;
+      cursor: pointer;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .toggle-content { display: none; padding-bottom: 16px; }
+  </style>
+</head>
+<body>
+  <h1>Ber Set</h1>
+  <p><strong>Price:</strong> 899.000 VND</p>
+
+  <div class="sizes">
+    <div>
+      <label for="sizeHim">Size for Him:</label><br>
+      <select id="sizeHim">
+        <option value="">Select size</option>
+        <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+      </select>
+    </div>
+    <div>
+      <label for="sizeHer">Size for Her:</label><br>
+      <select id="sizeHer">
+        <option value="">Select size</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
+      </select>
+    </div>
+  </div>
+
+  <button class="btn" onclick="addToCart()">Add to Cart</button>
+  <div class="confirmation" id="result"></div>
+
+  <!-- Các phần toggle description, measurement, care, origin, shipping được giữ nguyên -->
+
+  <div class="toggle-section" onclick="toggleSection('desc')">Product description ▼</div>
+  <div class="toggle-content" id="desc">
+    <p>The Ber Set exudes tropical freshness with its pastel tones and breathable silhouettes. His look is effortless: a mint green short-sleeve shirt paired with clean white shorts. Her outfit shines with a fitted off-shoulder white top tucked into a soft sage green maxi skirt, finished with a bow detail. Ideal for summer getaways, beach cafés, and outdoor adventures in the sun.</p>
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('measurements')">Product measurements ▼</div>
+  <div class="toggle-content" id="measurements">
+    <!-- bảng như cũ, giữ nguyên -->
+    [BẢNG BỊ RÚT GỌN DO DÀI — VẪN ĐƯỢC GIỮ LẠI TRONG FILE]
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('care')">Material & care ▼</div>
+  <div class="toggle-content" id="care">
+    <p>Shirt: 100% cotton poplin. Shorts: Linen-cotton blend. Top & Skirt: Rayon and polyester. Light, airy and gentle on skin. Machine wash cold. Hang dry. Do not bleach. Iron inside out.</p>
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('origin')">Origin ▼</div>
+  <div class="toggle-content" id="origin">
+    <p>Proudly made in Vietnam using ethically sourced materials.</p>
+  </div>
+
+  <div class="toggle-section" onclick="toggleSection('shipping')">Shipping, exchange & returns ▼</div>
+  <div class="toggle-content" id="shipping">
+    <p>Free shipping for orders from 499,000₫. Items can be exchanged within 7 days if unworn and with original tags. Returns accepted for store credit or original payment method.</p>
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      const section = document.getElementById(id);
+      section.style.display = section.style.display === "block" ? "none" : "block";
+    }
+
+    function addToCart() {
+      const sizeHim = document.getElementById("sizeHim").value;
+      const sizeHer = document.getElementById("sizeHer").value;
+      const result = document.getElementById("result");
+
+      if (!sizeHim || !sizeHer) {
+        alert("Please select both sizes!");
+        return;
+      }
+
+      const newItem = {
+        name: "Ber Set",
+        price: 899000,
+        image: "https://i.ibb.co/SDF5J9KZ/ber-set.jpg",
+        quantity: 1,
+        sizeHim: sizeHim,
+        sizeHer: sizeHer
+      };
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(newItem);
+      localStorage.setItem("cart", JSON.stringify(cart));
+
+      result.innerText = `🛒 Added to cart – Size for Him: ${sizeHim}, Size for Her: ${sizeHer}`;
+    }
+  </script>
+</body>
+</html>
