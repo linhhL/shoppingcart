@@ -1,0 +1,188 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Lamone Chatbot - Messenger Style</title>
+  <style>
+    body {
+      margin: 0;
+      background: #e5ddd5;
+      font-family: Arial, sans-serif;
+    }
+    .chat-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .chat-box {
+      flex: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background-color: #f7f7f7;
+    }
+    .bubble {
+      padding: 10px 15px;
+      border-radius: 20px;
+      margin: 8px 0;
+      max-width: 70%;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    .bot {
+      background: #fff;
+      align-self: flex-start;
+      border: 1px solid #ccc;
+    }
+    .user {
+      background: #d1edc1;
+      align-self: flex-end;
+      text-align: right;
+    }
+    .input-area {
+      padding: 10px;
+      background: #fff;
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #ccc;
+    }
+    .input-area input {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    .input-area button {
+      padding: 10px 16px;
+      font-size: 16px;
+      background: #0077cc;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .input-area button:hover {
+      background: #005fa3;
+    }
+    .restart-btn {
+      background: #aaa;
+    }
+  
+    .user-msg {
+      background: #d1edc1;
+      align-self: flex-end;
+      margin-left: auto;
+      text-align: right;
+    }
+    .bot-msg {
+      background: #ffffff;
+      align-self: flex-start;
+      margin-right: auto;
+      text-align: left;
+    }
+</style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chat"></div>
+    <div class="input-area">
+      <input type="number" id="inputField" placeholder="Type your answer..." />
+      <button onclick="submitAnswer()">Send</button>
+      <button class="restart-btn" onclick="location.reload()">🔄</button>
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("inputField");
+
+    let step = 0;
+    let who = "";
+    let girl = {}, boy = {};
+
+    function addBubble(sender, text) {
+      const div = document.createElement("div");
+      div.className = "bubble " + sender;
+      div.innerHTML = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function botSay(text) {
+      addBubble("bot", text);
+    }
+
+    function userSay(text) {
+      addBubble("user", text);
+    }
+
+    function submitAnswer() {
+      const val = input.value.trim();
+      if (!val) return;
+      userSay(val);
+      input.value = "";
+      handleInput(val);
+    }
+
+    function handleInput(val) {
+      const n = parseInt(val);
+      switch (step) {
+        case 0:
+          who = n === 1 ? "girl" : "boy";
+          step = 1;
+          botSay(`Chiều cao của ${who === 'girl' ? 'bạn gái' : 'bạn trai'} là bao nhiêu cm?`);
+          break;
+        case 1:
+          if (isNaN(n)) return botSay("Vui lòng nhập số cm hợp lệ.");
+          if (who === 'girl') girl.height = n; else boy.height = n;
+          step = 2;
+          botSay(`Cân nặng của ${who === 'girl' ? 'bạn gái' : 'bạn trai'} là bao nhiêu kg?`);
+          break;
+        case 2:
+          if (isNaN(n)) return botSay("Vui lòng nhập số kg hợp lệ.");
+          if (who === 'girl') girl.weight = n; else boy.weight = n;
+          const size = who === 'girl' ? getGirlSize(girl.height, girl.weight) : getBoySize(boy.height, boy.weight);
+          botSay(`${who === 'girl' ? '👧 Bạn gái' : '👦 Bạn trai'} nên mặc size <b>${size}</b>`);
+          if (size.includes("đặt may")) {
+            botSay(`📩 Liên hệ Facebook: <a style="text-decoration:none; color:#333; font-weight:bold;">Lamone Closet để may riêng.`);
+          }
+          if (who === 'girl') {
+            who = 'boy';
+            step = 1;
+            botSay("Tiếp theo, hãy nhập chiều cao bạn trai (cm):");
+          } else {
+            step = 99;
+            botSay("Cảm ơn bạn đã sử dụng tư vấn size của Lamone 💑");
+          }
+          break;
+      }
+    }
+
+    function getGirlSize(h, w) {
+      if (h < 155 && w < 45) return 'XS';
+      if (h < 160 && w < 50) return 'S';
+      if (h < 165 && w < 55) return 'M';
+      if (h < 171 && w < 61) return 'L';
+      return 'XL (hoặc đặt may)';
+    }
+
+    function getBoySize(h, w) {
+      if (h < 165 && w < 55) return 'S';
+      if (h < 170 && w < 60) return 'M';
+      if (h < 175 && w < 67) return 'L';
+      if (h < 180 && w < 75) return 'XL';
+      if (h < 185 && w < 85) return 'XXL';
+      return 'XXL+ (hoặc đặt may)';
+    }
+
+    // Khởi tạo đoạn chat
+    botSay("💬 Xin chào bạn!");
+    botSay("Mình là trợ lý tư vấn size đồ đôi của Lamone 💑");
+    botSay("Bạn muốn tư vấn cho ai trước?");
+    botSay("Gõ '1' cho 👧 bạn gái, '2' cho 👦 bạn trai.");
+  </script>
+</body>
+</html>
