@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Size Gợi Ý</title>
+  <style>
+    body {
+      font-family: Arial;
+      padding: 20px;
+      background: #f6f6f6;
+      max-width: 600px;
+      margin: auto;
+    }
+    #chatbox {
+      border: 1px solid #ccc;
+      padding: 10px;
+      background: white;
+      height: 300px;
+      overflow-y: auto;
+    }
+    .user, .bot {
+      margin: 10px 0;
+    }
+    .user { text-align: right; color: blue; }
+    .bot { text-align: left; color: green; }
+    input[type="text"] {
+      width: 80%;
+      padding: 10px;
+      font-size: 14px;
+    }
+    button {
+      padding: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Lamone - Hỏi Size Phù Hợp</h2>
+  <div id="chatbox"></div>
+  <input type="text" id="userInput" placeholder="Ví dụ: Mình cao 1m65 nặng 50kg..." />
+  <button onclick="sendMessage()">Gửi</button>
+
+  <script>
+    function sendMessage() {
+      const input = document.getElementById("userInput").value;
+      if (!input) return;
+      const chatbox = document.getElementById("chatbox");
+      chatbox.innerHTML += `<div class="user">${input}</div>`;
+      const reply = getBotReply(input);
+      chatbox.innerHTML += `<div class="bot">${reply}</div>`;
+      document.getElementById("userInput").value = "";
+      chatbox.scrollTop = chatbox.scrollHeight;
+    }
+
+    function getBotReply(message) {
+      const lower = message.toLowerCase();
+      let reply = "Cảm ơn bạn đã hỏi!";
+
+      const regex = /(?:cao\s*1m(\d{2,3}))?.*nặng\s*(\d{2,3})kg/;
+      const matches = message.match(regex);
+      
+      if (matches) {
+        const height = parseInt(matches[1]);
+        const weight = parseInt(matches[2]);
+
+        if (height && weight) {
+          if (height <= 158 && weight <= 47) reply = "Bạn nữ nên chọn size XS.";
+          else if (height <= 165 && weight <= 52) reply = "Bạn nữ nên chọn size S.";
+          else if (height <= 170 && weight <= 58) reply = "Bạn nữ nên chọn size M.";
+          else if (height <= 175 && weight <= 63) reply = "Bạn nữ nên chọn size L.";
+          else reply = "Bạn nữ nên chọn size XL.";
+        }
+      }
+
+      if (message.includes("người yêu") || message.includes("bạn trai")) {
+        if (message.includes("1m70") && message.includes("60kg")) {
+          reply += "<br>Người yêu bạn có thể mặc size M hoặc L tùy theo form rộng hay ôm.";
+        }
+      }
+
+      if (message.includes("1m65") && message.includes("50kg")) {
+        reply += "<br>Với chiều cao 1m65 và 50kg, bạn có thể mặc size S hoặc M tuỳ dáng áo.";
+      }
+
+      return reply;
+    }
+  </script>
+</body>
+</html>
