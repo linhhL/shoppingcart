@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Lamone Chatbot</title>
+  <style>
+    body {
+      margin: 0;
+      background: #e7f5fe;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .chat-container {
+      width: 100%;
+      max-width: 500px;
+      margin: 40px auto;
+      height: 90vh;
+      background: #e7f5fe;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-box {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background: #e7f5fe;
+      display: flex;
+      flex-direction: column;
+    }
+    .bubble {
+      padding: 12px 18px;
+      border-radius: 20px;
+      margin: 8px;
+      max-width: 75%;
+      line-height: 1.5;
+      word-wrap: break-word;
+    }
+    .bot {
+      background: #e7f5fe;
+      border: 1px solid #ccc;
+      align-self: flex-start;
+      border-radius: 20px 20px 20px 5px;
+    }
+    .user {
+      background: #d1f8d1;
+      align-self: flex-end;
+      border-radius: 20px 20px 5px 20px;
+    }
+    .input-area {
+      padding: 12px;
+      background: #fff;
+      display: flex;
+      gap: 10px;
+      border-top: 1px solid #ccc;
+    }
+    .input-area input {
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    .input-area button {
+      padding: 12px 18px;
+      font-size: 16px;
+      background: #0077cc;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    .input-area button:hover {
+      background: #005fa3;
+    }
+    .restart-btn {
+      background: #aaa;
+    }
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: #fff;
+      padding: 10px 14px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      width: fit-content;
+      margin: 8px 0;
+      align-self: flex-start;
+    }
+    .typing-indicator span {
+      width: 6px;
+      height: 6px;
+      background-color: #aaa;
+      border-radius: 50%;
+      display: inline-block;
+      animation: blink 1.4s infinite both;
+    }
+    .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; transform: scale(0.8); }
+      40% { opacity: 1; transform: scale(1); }
+    }
+    #startButton {
+      padding: 16px 24px;
+      font-size: 18px;
+      background: #d2e7f4;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: auto;
+      margin-top: 150px;
+      display: block;
+    }
+    #chatInterface {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <button id="startButton" onclick="startChat()">💬 Start Chat</button>
+
+  <div class="chat-container" id="chatInterface" style="display:none;">
+    <div class="chat-box" id="chat"></div>
+    <div class="input-area">
+      <input type="text" id="inputField" placeholder="Type your answer..." />
+      <button onclick="submitAnswer()">Send</button>
+      <button class="restart-btn" onclick="location.reload()">🔄</button>
+    </div>
+  </div>
+
+  <script>
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("inputField");
+
+    let step = 0;
+    let who = "";
+    let girl = {}, boy = {};
+
+    function startChat() {
+      document.getElementById("startButton").style.display = "none";
+      document.getElementById("chatInterface").style.display = "flex";
+      const initialMessages = [
+        "💬 Xin chào bạn!",
+        "Mình là trợ lý tư vấn size đồ đôi của Lamone 💑",
+        "Bạn muốn tư vấn cho ai trước?",
+        "Gõ '1' cho 👧 bạn gái, '2' cho 👦 bạn trai."
+      ];
+      let delay = 0;
+      initialMessages.forEach((msg) => {
+        setTimeout(() => botSay(msg), delay);
+        delay += 1800;
+      });
+    }
+
+    function addBubble(sender, text) {
+      const div = document.createElement("div");
+      div.className = "bubble " + sender;
+      div.innerHTML = text;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    function botSay(text) {
+      const typing = document.createElement("div");
+      typing.className = "typing-indicator";
+      typing.innerHTML = "<span></span><span></span><span></span>";
+      chat.appendChild(typing);
+      chat.scrollTop = chat.scrollHeight;
+
+      setTimeout(() => {
+        typing.remove();
+        addBubble("bot", text);
+      }, 1000);
+    }
+
+    function userSay(text) {
+      addBubble("user", text);
+    }
+
+    function submitAnswer() {
+      const val = input.value.trim();
+      if (!val) return;
+      userSay(val);
+      input.value = "";
+      handleInput(val);
+    }
+
+    function handleInput(val) {
+      const n = parseInt(val.replace(/\D/g, ""));
+      switch (step) {
+        case 0:
+          who = n === 1 ? "girl" : "boy";
+          step = 1;
+          botSay(`Chiều cao của ${who === 'girl' ? 'bạn gái' : 'bạn trai'} là bao nhiêu cm?`);
+          break;
+        case 1:
+          if (isNaN(n)) return botSay("Vui lòng nhập số cm hợp lệ.");
+          if (who === 'girl') girl.height = n; else boy.height = n;
+          step = 2;
+          botSay(`Cân nặng của ${who === 'girl' ? 'bạn gái' : 'bạn trai'} là bao nhiêu kg?`);
+          break;
+        case 2:
+          if (isNaN(n)) return botSay("Vui lòng nhập số kg hợp lệ.");
+          if (who === 'girl') girl.weight = n; else boy.weight = n;
+          const size = who === 'girl' ? getGirlSize(girl.height, girl.weight) : getBoySize(boy.height, boy.weight);
+          botSay(`${who === 'girl' ? '👧 Bạn gái' : '👦 Bạn trai'} nên mặc size <b>${size}</b>`);
+          setTimeout(() => {
+            if (size.includes("đặt may")) {
+              botSay(`📩 Liên hệ Facebook: <a href="https://www.facebook.com/profile.php?id=61575835869120" target="_blank" style="text-decoration:none; color:#333;"><b>Lamone</b> để may riêng</a>.`);
+            }
+            if (who === 'girl') {
+              who = 'boy';
+              step = 1;
+              botSay("Tiếp theo, hãy nhập chiều cao bạn trai (cm):");
+            } else {
+              step = 99;
+              botSay("Cảm ơn bạn đã sử dụng tư vấn size của Lamone 💑");
+              botSay(`Nếu bạn mong muốn sản phẩm thật vừa vặn, đừng ngần ngại liên hệ <a href="https://www.facebook.com/profile.php?id=61575835869120" target="_blank" style="color:#333;"><b>Lamone</b></a> để được may đo riêng theo số đo của bạn nhé!`);
+            }
+          }, 2000);
+          break;
+      }
+    }
+
+    function getGirlSize(h, w) {
+      if (h < 155 && w < 45) return 'XS';
+      if (h < 160 && w < 50) return 'S';
+      if (h < 165 && w < 55) return 'M';
+      if (h < 171 && w < 61) return 'L';
+      return 'XL (hoặc đặt may)';
+    }
+
+    function getBoySize(h, w) {
+      if (h < 165 && w < 55) return 'S';
+      if (h < 170 && w < 60) return 'M';
+      if (h < 175 && w < 67) return 'L';
+      if (h < 180 && w < 75) return 'XL';
+      if (h < 185 && w < 85) return 'XXL';
+      return 'XXL+ (hoặc đặt may)';
+    }
+  </script>
+</body>
+</html>
