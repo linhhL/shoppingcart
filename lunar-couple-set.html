@@ -25,6 +25,8 @@
       border-radius: 12px;
       background-color: #f9f9f9;
       appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
     }
     .confirmation { margin-top: 20px; font-style: italic; color: #444; }
 
@@ -51,14 +53,14 @@
       <label for="sizeHim">Size for Him:</label><br>
       <select id="sizeHim">
         <option value="">Select size</option>
-        <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option>
+        <option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option value="customHim">Custom tailored</option>
       </select>
     </div>
     <div>
       <label for="sizeHer">Size for Her:</label><br>
       <select id="sizeHer">
         <option value="">Select size</option>
-        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
+        <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option value="customHer">Custom tailored</option>
       </select>
     </div>
   </div>
@@ -106,34 +108,46 @@
   </div>
 
   <script>
-    function toggleSection(id) {
-      const section = document.getElementById(id);
-      section.style.display = section.style.display === "block" ? "none" : "block";
+  function toggleSection(id) {
+    const section = document.getElementById(id);
+    section.style.display = section.style.display === "block" ? "none" : "block";
+  }
+
+  function addToCart() {
+    const sizeHim = document.getElementById("sizeHim").value;
+    const sizeHer = document.getElementById("sizeHer").value;
+    const result = document.getElementById("result");
+
+    if (!sizeHim || !sizeHer) {
+      alert("Please select both sizes!");
+      return;
     }
 
-    function addToCart() {
-      const sizeHim = document.getElementById("sizeHim").value;
-      const sizeHer = document.getElementById("sizeHer").value;
-      const result = document.getElementById("result");
+    let basePrice = 1200000;
+    let extra = 0;
 
-      if (!sizeHim || !sizeHer) {
-        alert("Please select both sizes!");
-        return;
-      }
+    if (sizeHim === "customHim") extra += 20000;
+    if (sizeHer === "customHer") extra += 20000;
 
-      const newItem = {
-        name: "Lunar Couple Set",
-        price: 1200000,
-        sizeHim: sizeHim,
-        sizeHer: sizeHer
-      };
+    const displaySizeHim = sizeHim === "customHim" ? "Custom tailored" : sizeHim;
+    const displaySizeHer = sizeHer === "customHer" ? "Custom tailored" : sizeHer;
 
-      let cart = JSON.parse(localStorage.getItem("cart")) || [];
-      cart.push(newItem);
-      localStorage.setItem("cart", JSON.stringify(cart));
+    const newItem = {
+      name: "Lunar Couple Set",
+      image: "https://i.ibb.co/754QsmM/lunar.jpg",
+      price: basePrice + extra,
+      sizeHim: displaySizeHim,
+      sizeHer: displaySizeHer,
+      quantity: 1
+    };
 
-      result.innerText = `🛒 Added to cart – Size for Him: ${sizeHim}, Size for Her: ${sizeHer}`;
-    }
-  </script>
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(newItem);
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    const notice = extra > 0 ? ` (additional ${extra.toLocaleString()} VND tailoring fee)` : "";
+    result.innerText = `🛒 Added to cart – Size for Him: ${displaySizeHim}, Size for Her: ${displaySizeHer}${notice}`;
+  }
+</script>
 </body>
 </html>
