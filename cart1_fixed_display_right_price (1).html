@@ -1,0 +1,102 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shopping Cart</title>
+  <style>
+    body { font-family: Arial; max-width: 700px; margin: 40px auto; }
+    .item { background: #f9f9f9; padding: 20px; display: flex; justify-content: space-between; align-items: center; border-radius: 10px; margin-bottom: 15px; position: relative; }
+    .item button {
+      position: absolute; top: 10px; right: 10px;
+      background: #dc3545; color: white; border: none;
+      border-radius: 50%; width: 28px; height: 28px; font-weight: bold; cursor: pointer;
+    }
+    .total { text-align: right; font-weight: bold; margin-top: 20px; }
+    .clear-btn, .checkout-btn {
+      background: #555; color: white; padding: 10px 20px;
+      border: none; border-radius: 6px; cursor: pointer; margin-top: 20px; display: block;
+    }
+    .clear-btn:hover, .checkout-btn:hover { background: #333; }
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <div id="cartItems"></div>
+  <div class="total" id="totalPrice"></div>
+  <button class="clear-btn" onclick="clearCart()">🧹 Clear Your Cart</button>
+  <button class="checkout-btn" onclick="goCheckout()">🛒 Checkout</button>
+
+  <script>
+    function loadCart() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const container = document.getElementById("cartItems");
+      const totalEl = document.getElementById("totalPrice");
+
+      if (cart.length === 0) {
+        container.innerHTML = "<p>Your cart is empty.</p>";
+        totalEl.innerText = "";
+        return;
+      }
+
+      let total = 0;
+      let html = "";
+
+      cart.forEach((item, index) => {
+        total += item.price * item.quantity;
+        html += `
+        <div class="item">
+          <div style="display: flex; align-items: center;">
+            <img src="${item.image}" alt="${item.name}" style="width:60px;height:auto;margin-right:15px;border-radius:8px;">
+            <div>
+              <strong>${item.name}</strong><br>
+              ${
+                (item.sizeHim && item.sizeHim !== "-" || item.sizeHer && item.sizeHer !== "-")
+                  ? `Size Him: ${item.sizeHim || "-"} | Size Her: ${item.sizeHer || "-"}<br>`
+                  : ""
+              }
+              Qty:
+              <select onchange="updateQuantity(${index}, this.value)">
+                ${[1,2,3,4,5].map(qty => `<option ${item.quantity == qty ? 'selected' : ''}>${qty}</option>`).join('')}
+              </select>
+            </div>
+          </div>
+          <div style="font-weight: bold; text-align: right;">
+            ${(item.price * item.quantity).toLocaleString()} VND
+            <br><button onclick="removeItem(${index})" style="margin-top:8px;background:#dc3545;color:white;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;">×</button>
+          </div>
+        </div>
+      `;
+      });
+
+      container.innerHTML = html;
+      totalEl.innerText = "Total: " + total.toLocaleString() + " VND";
+    }
+
+    function updateQuantity(index, quantity) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart[index].quantity = parseInt(quantity);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.splice(index, 1);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      loadCart();
+    }
+
+    function clearCart() {
+      localStorage.removeItem("cart");
+      loadCart();
+    }
+
+    function goCheckout() {
+      window.location.href = "https://linhhL.github.io/shoppingcart/checkout_shipping_full_pretty.html";
+    }
+
+    loadCart();
+  </script>
+</body>
+</html>
