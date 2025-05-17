@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add to Cart Button</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background: none;
+      font-family: Arial, sans-serif;
+    }
+
+    #addToCartBtn {
+      border: 2px solid black;
+      background: none;
+      color: black;
+      font-size: 16px;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 300px;
+      text-align: center;
+    }
+
+    #addToCartBtn:hover {
+      background: black;
+      color: white;
+    }
+
+    #confirmationMessage {
+      margin-top: 10px;
+      font-size: 14px;
+      color: gray;
+      font-style: italic;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div>
+    <button id="addToCartBtn">Add to cart</button>
+    <p id="confirmationMessage"></p>
+  </div>
+
+  <script>
+    document.getElementById("addToCartBtn").addEventListener("click", function () {
+      const product = {
+        name: "Babi mami bag",
+        image: "https://i.ibb.co/n85jPfMz/Screenshot-2025-05-15-at-00-46-00.png",
+        price: 250000,
+        quantity: 1
+      };
+
+      let cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const existingIndex = cart.findIndex(item => item.name === product.name);
+      if (existingIndex >= 0) {
+        cart[existingIndex].quantity += 1;
+      } else {
+        cart.push(product);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      document.getElementById("confirmationMessage").innerText =
+        "🛒 Added to cart - babi mami bag";
+    });
+  </script>
+
+</body>
+</html>
